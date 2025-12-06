@@ -1,0 +1,304 @@
+.formulario-container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--space-24);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-24);
+    margin-bottom: var(--space-24);
+}
+
+.formulario-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    box-shadow: var(--shadow-sm);
+}
+
+.tarea-info-box {
+    background-color: var(--color-bg-1);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--space-24);
+    margin-bottom: var(--space-24);
+    border-radius: var(--radius-base);
+}
+
+.tarea-info-box h2 {
+    margin: 0 0 var(--space-16);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-2xl);
+}
+
+.tarea-requirements {
+    margin-top: var(--space-16);
+    padding-top: var(--space-16);
+    border-top: 1px solid var(--color-border);
+}
+
+.tarea-requirements h4 {
+    margin: 0 0 var(--space-12);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-lg);
+}
+
+.tarea-requirements ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: 0;
+}
+
+.tarea-requirements li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}
+
+.tarea-requirements li::before {
+    content: "✓";
+    color: var(--color-success);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+}
+
+/* FORM GROUPS */
+
+.form-group {
+    margin-bottom: var(--space-24);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-8);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+}
+
+.form-label i {
+    margin-right: var(--space-6);
+}
+
+.form-control,
+.file-input {
+    width: 100%;
+    padding: var(--space-12) var(--space-16);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-base);
+    transition: all var(--duration-normal) var(--ease-standard);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.form-control:focus,
+.file-input:focus {
+    outline: var(--focus-outline);
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+    font-family: var(--font-family-base);
+    line-height: var(--line-height-normal);
+}
+
+.form-text {
+    display: block;
+    margin-top: var(--space-6);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* FILE UPLOAD */
+
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-upload-area {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-base);
+    padding: var(--space-32) var(--space-16);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    background-color: var(--color-secondary);
+}
+
+.file-upload-area:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-1);
+}
+
+.file-upload-area i {
+    font-size: calc(var(--font-size-4xl) * 1.25);
+    color: var(--color-primary);
+    margin-bottom: var(--space-12);
+    display: block;
+}
+
+.file-upload-area h4 {
+    margin: 0 0 var(--space-6);
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+
+.file-upload-area p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+/* FORM ACTIONS */
+
+.form-actions {
+    display: flex;
+    gap: var(--space-16);
+    margin-top: var(--space-24);
+}
+
+.form-actions .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* SIDEBAR FORM */
+
+.formulario-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    height: fit-content;
+    position: sticky;
+    top: 80px;
+}
+
+.sidebar-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-16);
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-card h3,
+.sidebar-card h4 {
+    margin: 0 0 var(--space-12);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+}
+
+.sidebar-card p {
+    margin: 0 0 var(--space-12);
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+}
+
+.sidebar-card.alert {
+    border-left: 4px solid;
+}
+
+.sidebar-card.alert-info {
+    border-left-color: var(--color-primary);
+    background-color: var(--color-bg-1);
+}
+
+.sidebar-card.alert-info h4 {
+    color: var(--color-primary);
+}
+
+.sidebar-card.alert-info p {
+    color: var(--color-text);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+    .formulario-container {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .file-upload-area {
+        padding: var(--space-24) var(--space-16);
+    }
+
+    .file-upload-area i {
+        font-size: var(--space-32);
+    }
+
+    .formulario-container {
+        padding: 0 var(--space-16);
+    }
+}
+
+@media (max-width: 480px) {
+    .formulario-container {
+        padding: 0 var(--space-16);
+        gap: var(--space-16);
+    }
+
+    .form-card,
+    .tarea-info-box {
+        padding: var(--space-16);
+    }
+
+    .sidebar-card {
+        padding: var(--space-12);
+    }
+
+    .file-upload-area {
+        padding: var(--space-20) var(--space-12);
+    }
+
+    .file-upload-area i {
+        font-size: var(--space-24);
+    }
+
+    .form-control,
+    .file-input {
+        padding: var(--space-10) var(--space-12);
+        font-size: var(--font-size-base);
+    }
+}

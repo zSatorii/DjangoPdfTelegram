@@ -1,0 +1,296 @@
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 var(--space-24);
+    }
+
+    h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    h2 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    h3 {
+        font-size: var(--font-size-xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--space-16);
+    }
+
+    h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    h2 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .btn {
+        padding: var(--space-8) var(--space-16);
+        font-size: var(--font-size-sm);
+    }
+
+    .navbar-container {
+        padding: 0 var(--space-16);
+    }
+
+    .main-content {
+        padding: var(--space-24) 0;
+    }
+
+    /* HAMBURGER ACTIVE */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 0 var(--space-12);
+    }
+
+    h1 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    h2 {
+        font-size: var(--font-size-xl);
+    }
+    
+    h3 {
+        font-size: var(--font-size-lg);
+    }
+    
+    h4 {
+        font-size: var(--font-size-md);
+    }
+
+    .btn {
+        padding: var(--space-8) var(--space-12);
+        font-size: var(--font-size-sm);
+    }
+
+    .btn-sm {
+        padding: var(--space-6) var(--space-8);
+        font-size: var(--font-size-xs);
+    }
+
+    .main-content {
+        padding: var(--space-16) 0;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: var(--font-size-md);
+    }
+
+    .navbar-brand .logo span {
+        display: none;
+    }
+
+    .logo {
+        font-size: var(--font-size-xl);
+    }
+
+    .navbar-menu {
+        gap: var(--space-8);
+    }
+
+    .nav-link {
+        padding: var(--space-8) var(--space-12);
+        font-size: var(--font-size-sm);
+    }
+
+    .nav-divider {
+        display: none;
+    }
+
+    h1 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    h2 {
+        font-size: var(--font-size-xl);
+    }
+    
+    h3 {
+        font-size: var(--font-size-md);
+    }
+
+    .btn {
+        padding: var(--space-8) var(--space-12);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* PRINT STYLES */
+
+@media print {
+    .navbar,
+    .footer,
+    .sidebar,
+    .perfil-sidebar,
+    .leccion-sidebar,
+    .formulario-sidebar,
+    .search-form,
+    .filter-group,
+    .btn,
+    .filter-btn {
+        display: none !important;
+    }
+
+    body {
+        background: var(--color-white);
+        color: var(--color-black);
+    }
+
+    .content-card,
+    .perfil-card,
+    .form-card,
+    .tarea-card,
+    .curso-card {
+        box-shadow: none;
+        border: 1px solid var(--color-border);
+        page-break-inside: avoid;
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--color-black);
+    }
+
+    .hero-section,
+    .page-header,
+    .hero-content,
+    .curso-hero-image {
+        display: none;
+    }
+}
+
+/* DARK MODE */
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+
+    .content-card,
+    .perfil-card,
+    .form-card,
+    .sidebar-card,
+    .curso-card {
+        background-color: var(--color-surface);
+        border-color: var(--color-card-border);
+    }
+
+    .content-card h2,
+    .content-card h3,
+    .perfil-card h2,
+    .perfil-card h3 {
+        color: var(--color-text);
+    }
+
+    .form-control,
+    .search-input {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        border-color: var(--color-border);
+    }
+}
+
+[data-color-scheme="dark"] {
+    body {
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+
+    .content-card,
+    .perfil-card,
+    .form-card,
+    .sidebar-card,
+    .curso-card {
+        background-color: var(--color-surface);
+        border-color: var(--color-card-border);
+    }
+
+    .content-card h2,
+    .content-card h3,
+    .perfil-card h2,
+    .perfil-card h3 {
+        color: var(--color-text);
+    }
+
+    .form-control,
+    .search-input {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        border-color: var(--color-border);
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* HIGH CONTRAST */
+
+@media (prefers-contrast: more) {
+    .btn-primary {
+        border: 2px solid currentColor;
+    }
+
+    .form-control {
+        border-width: 2px;
+    }
+
+    .content-card {
+        border-width: 2px;
+    }
+    
+    .curso-card {
+        border-width: 2px;
+    }
+    
+    a {
+        text-decoration: underline;
+    }
+    
+    .page-link {
+        border-width: 2px;
+    }
+}

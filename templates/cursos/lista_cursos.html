@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cursos - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Explora Nuestros Cursos</h1>
+        <p>Aprende nuevas habilidades con nuestros cursos de calidad</p>
+        
+        <form method="get" class="search-form">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Buscar cursos..." 
+                    class="search-input"
+                    value="{{ request.GET.q }}"
+                >
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="cursos-section">
+    <div class="section-header">
+        <h2>Catálogo de Cursos</h2>
+        <p class="section-subtitle">Descubre una amplia variedad de cursos para todos los niveles</p>
+    </div>
+
+    {% if cursos %}
+        <div class="cursos-grid">
+            {% for curso in cursos %}
+                <article class="curso-card">
+                    <div class="curso-image-wrapper">
+                        {% if curso.imagen %}
+                            <img src="{{ curso.imagen.url }}" alt="{{ curso.titulo }}" class="curso-image">
+                        {% else %}
+                            <div class="curso-image placeholder">
+                                <i class="fas fa-book"></i>
+                            </div>
+                        {% endif %}
+                        <span class="nivel-badge nivel-{{ curso.nivel }}">
+                            {{ curso.get_nivel_display }}
+                        </span>
+                    </div>
+
+                    <div class="curso-body">
+                        <h3 class="curso-titulo">{{ curso.titulo }}</h3>
+                        
+                        <div class="instructor-info">
+                            <i class="fas fa-user-circle"></i>
+                            <span class="instructor-name">{{ curso.instructor.usuario.get_full_name }}</span>
+                        </div>
+
+                        <p class="curso-descripcion">{{ curso.descripcion|truncatewords:20 }}</p>
+
+                        <div class="curso-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ curso.duracion }}h</span>
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-book-open"></i>
+                                <span>{{ curso.modulos.count }} módulos</span>
+                            </span>
+                        </div>
+
+                        <div class="curso-footer">
+                            <span class="precio">${{ curso.precio }}</span>
+                            <a href="{% url 'detalle_curso' curso.id %}" class="btn btn-primary">
+                                Ver Detalles
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <h3>No hay cursos disponibles</h3>
+            <p>Vuelve más tarde para descubrir nuevos cursos</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

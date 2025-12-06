@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mis Tareas - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/evaluaciones.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- HEADER -->
+<header class="page-header">
+    <h1><i class="fas fa-tasks"></i> Mis Tareas</h1>
+    <p>Manage and track your assignments</p>
+</header>
+
+<!-- CONTENT -->
+<section class="tareas-section">
+    {% if entregas %}
+        <div class="tareas-container">
+            <!-- FILTROS (opcional) -->
+            <div class="tareas-filters">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">
+                        Todas ({{ entregas.count }})
+                    </button>
+                    <button class="filter-btn" data-filter="pending">
+                        Pendientes
+                    </button>
+                    <button class="filter-btn" data-filter="graded">
+                        Calificadas
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAREAS LIST -->
+            <div class="tareas-list">
+                {% for entrega in entregas %}
+                    <article class="tarea-card" data-status="{% if entrega.calificacion %}graded{% else %}pending{% endif %}">
+                        <div class="tarea-status-indicator">
+                            {% if entrega.calificacion %}
+                                <div class="status-badge status-graded">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            {% else %}
+                                <div class="status-badge status-pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="tarea-info">
+                            <div class="tarea-header">
+                                <h3>{{ entrega.tarea.titulo }}</h3>
+                                <span class="tarea-course">
+                                    {{ entrega.tarea.leccion.modulo.curso.titulo }}
+                                </span>
+                            </div>
+
+                            <p class="tarea-descripcion">{{ entrega.tarea.descripcion|truncatewords:20 }}</p>
+
+                            <div class="tarea-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>
+                                        Límite: 
+                                        <strong>{{ entrega.tarea.fecha_limite|date:"d/m/Y H:i" }}</strong>
+                                    </span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>
+                                        Puntaje: 
+                                        <strong>{{ entrega.tarea.puntaje_maximo }} pts</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tarea-right">
+                            {% if entrega.calificacion %}
+                                <div class="calificacion-box">
+                                    <div class="calificacion-label">Tu Calificación</div>
+                                    <div class="calificacion-value">
+                                        {{ entrega.calificacion }}/{{ entrega.tarea.puntaje_maximo }}
+                                    </div>
+                                    {% if entrega.comentarios %}
+                                        <div class="calificacion-comments">
+                                            <i class="fas fa-comment"></i>
+                                            {{ entrega.comentarios }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="pending-label">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    Pendiente
+                                </div>
+                            {% endif %}
+
+                            <a href="{% url 'entregar_tarea' entrega.tarea.id %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Entregar/Editar
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>No tienes tareas asignadas</h3>
+            <p>Excelente trabajo. Sigue así con tus estudios.</p>
+            <a href="{% url 'lista_cursos' %}" class="btn btn-primary">
+                <i class="fas fa-book"></i> Ver Cursos
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
+

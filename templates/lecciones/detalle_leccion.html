@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ leccion.titulo }} - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/detalle_leccion.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+    <a href="{% url 'lista_cursos' %}">Cursos</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="{% url 'detalle_curso' curso.id %}">{{ curso.titulo }}</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="{% url 'lista_lecciones' modulo.id %}">{{ modulo.titulo }}</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>{{ leccion.titulo }}</span>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="leccion-container">
+    <!-- LEFT COLUMN - CONTENIDO -->
+    <main class="leccion-content">
+        <article class="content-card leccion-card">
+            <header class="leccion-header">
+                <h1>{{ leccion.titulo }}</h1>
+                <div class="leccion-badges">
+                    <span class="badge tipo-{{ leccion.tipo }}">{{ leccion.get_tipo_display }}</span>
+                    <span class="badge">{{ leccion.duracion }} min</span>
+                </div>
+            </header>
+
+            <!-- CONTENIDO SEGÚN TIPO -->
+            <div class="leccion-body">
+                {% if leccion.tipo == 'video' %}
+                    <div class="video-container">
+                        {% if 'youtube' in leccion.contenido %}
+                            <iframe 
+                                width="100%" 
+                                height="600" 
+                                src="{{ leccion.contenido }}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        {% else %}
+                            <video controls style="width: 100%; height: auto;">
+                                <source src="{{ leccion.contenido }}" type="video/mp4">
+                                Tu navegador no soporta video HTML5.
+                            </video>
+                        {% endif %}
+                    </div>
+                {% elif leccion.tipo == 'texto' %}
+                    <div class="texto-content">
+                        {{ leccion.contenido|safe }}
+                    </div>
+                {% elif leccion.tipo == 'quiz' %}
+                    <div class="quiz-content">
+                        <div class="alert alert-info">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Quiz:</strong> Responde todas las preguntas para completar esta lección.
+                        </div>
+                        {{ leccion.contenido|safe }}
+                    </div>
+                {% elif leccion.tipo == 'tarea' %}
+                    <div class="tarea-content">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-tasks"></i>
+                            <strong>Tarea:</strong> Completa esta tarea y envía tu solución.
+                        </div>
+                        {{ leccion.contenido|safe }}
+                    </div>
+                {% else %}
+                    <p>{{ leccion.contenido }}</p>
+                {% endif %}
+            </div>
+
+            <!-- RECURSOS -->
+            {% if leccion.recursos %}
+                <div class="leccion-resources">
+                    <h3><i class="fas fa-download"></i> Recursos Disponibles</h3>
+                    <a href="{{ leccion.recursos.url }}" class="btn btn-outline btn-sm" download>
+                        <i class="fas fa-file-download"></i> Descargar Recursos
+                    </a>
+                </div>
+            {% endif %}
+        </article>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="leccion-sidebar">
+        <!-- INFO DEL MODULO -->
+        <div class="sidebar-card">
+            <h3><i class="fas fa-info-circle"></i> Información</h3>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="label">Módulo:</span>
+                    <span class="value">{{ modulo.titulo }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Curso:</span>
+                    <span class="value">{{ curso.titulo }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Duración:</span>
+                    <span class="value">{{ leccion.duracion }} minutos</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Tipo:</span>
+                    <span class="value">{{ leccion.get_tipo_display }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTRAS LECCIONES -->
+        <div class="sidebar-card">
+            <h3><i class="fas fa-list"></i> Otras Lecciones</h3>
+            <ul class="lecciones-nav">
+                {% for other_leccion in modulo.lecciones.all %}
+                    <li class="{% if other_leccion.id == leccion.id %}active{% endif %}">
+                        <a href="{% url 'detalle_leccion' other_leccion.id %}">
+                            <i class="fas fa-{{ other_leccion.tipo|leccion_icon }}"></i>
+                            {{ other_leccion.titulo }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- NAVEGACION -->
+        <div class="sidebar-card">
+            <h3><i class="fas fa-arrow-right"></i> Navegación</h3>
+            <div class="nav-buttons">
+                <a href="{% url 'lista_lecciones' modulo.id %}" class="btn btn-outline btn-sm">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+                <a href="{% url 'lista_tareas' %}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-tasks"></i> Tareas
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock %}

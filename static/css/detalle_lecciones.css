@@ -1,0 +1,299 @@
+.leccion-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: var(--space-24);
+    margin-bottom: var(--space-24);
+}
+
+/* ============ LECCION CONTENT ============ */
+
+.leccion-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.leccion-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-24);
+    box-shadow: var(--shadow-sm);
+}
+
+.leccion-header {
+    border-bottom: 1px solid var(--color-card-border-inner);
+    padding-bottom: var(--space-20);
+    margin-bottom: var(--space-20);
+}
+
+.leccion-header h1 {
+    margin-bottom: var(--space-12);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    letter-spacing: var(--letter-spacing-tight);
+}
+
+.leccion-badges {
+    display: flex;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    padding: var(--space-4) var(--space-12);
+    background-color: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+
+.leccion-body {
+    margin-bottom: var(--space-24);
+}
+
+/* ============ VIDEO CONTAINER ============ */
+
+.video-container {
+    margin-bottom: var(--space-24);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-black);
+    aspect-ratio: 16 / 9;
+}
+
+.video-container iframe,
+.video-container video {
+    width: 100%;
+    height: 100%;
+}
+
+/* ============ TEXT CONTENT ============ */
+
+.texto-content {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-normal);
+    color: var(--color-text);
+}
+
+.texto-content p {
+    margin-bottom: var(--space-20);
+}
+
+.texto-content h2 {
+    margin-top: var(--space-32);
+    margin-bottom: var(--space-12);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.texto-content ul,
+.texto-content ol {
+    margin-bottom: var(--space-20);
+    padding-left: var(--space-24);
+}
+
+.texto-content li {
+    margin-bottom: var(--space-8);
+}
+
+/* ============ LECCION RESOURCES ============ */
+
+.leccion-resources {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-20);
+    margin-top: var(--space-24);
+}
+
+.leccion-resources h3 {
+    margin-bottom: var(--space-20);
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+/* ============ SIDEBAR ============ */
+
+.leccion-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    height: fit-content;
+    position: sticky;
+    top: 80px;
+}
+
+.sidebar-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-20);
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar-card h3,
+.sidebar-card h4 {
+    margin-bottom: var(--space-20);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.info-item .label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.info-item .value {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+}
+
+.lecciones-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: 0;
+    margin: 0;
+}
+
+.lecciones-nav li {
+    margin: 0;
+}
+
+.lecciones-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    padding: var(--space-12);
+    border-radius: var(--radius-base);
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.lecciones-nav a:hover {
+    background-color: var(--color-secondary);
+}
+
+.lecciones-nav li.active a {
+    background-color: var(--color-primary);
+    color: var(--color-btn-primary-text);
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+.nav-buttons .btn {
+    justify-content: center;
+    width: 100%;
+}
+
+/* ============ ALERTS ============ */
+
+.alert-info {
+    background-color: rgba(var(--color-teal-500-rgb), 0.1);
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-text);
+    padding: var(--space-16);
+    border-radius: var(--radius-base);
+    margin-bottom: var(--space-16);
+}
+
+.alert-warning {
+    background-color: rgba(var(--color-warning-rgb), 0.1);
+    border-left: 4px solid var(--color-warning);
+    color: var(--color-text);
+    padding: var(--space-16);
+    border-radius: var(--radius-base);
+    margin-bottom: var(--space-16);
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 1024px) {
+    .leccion-container {
+        grid-template-columns: 1fr;
+    }
+
+    .leccion-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-container {
+        aspect-ratio: 16 / 9;
+    }
+
+    .leccion-badges {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .leccion-container {
+        gap: var(--space-16);
+    }
+
+    .leccion-card {
+        padding: var(--space-16);
+    }
+
+    .leccion-header {
+        padding-bottom: var(--space-16);
+        margin-bottom: var(--space-16);
+    }
+
+    .leccion-header h1 {
+        font-size: var(--font-size-xl);
+    }
+
+    .texto-content {
+        font-size: var(--font-size-base);
+    }
+
+    .sidebar-card {
+        padding: var(--space-16);
+    }
+
+    .video-container {
+        margin-bottom: var(--space-16);
+        border-radius: var(--radius-base);
+    }
+
+    .leccion-resources {
+        padding: var(--space-16);
+    }
+
+    .nav-buttons {
+        gap: var(--space-8);
+    }
+}

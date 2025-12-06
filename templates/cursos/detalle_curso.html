@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ curso.titulo }} - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/detalle_curso.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="curso-hero">
+    <div class="hero-image">
+        {% if curso.imagen %}
+            <img src="{{ curso.imagen.url }}" alt="{{ curso.titulo }}">
+        {% else %}
+            <div class="hero-placeholder">
+                <i class="fas fa-book"></i>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- HEADER INFO -->
+<section class="curso-header-info">
+    <div class="header-content">
+        <h1>{{ curso.titulo }}</h1>
+        
+        <div class="header-meta">
+            <span class="badge-nivel nivel-{{ curso.nivel }}">{{ curso.get_nivel_display }}</span>
+            <span class="instructor-badge">
+                <i class="fas fa-user-circle"></i>
+                {{ curso.instructor.usuario.get_full_name }}
+            </span>
+            <span class="duracion-badge">
+                <i class="fas fa-clock"></i>
+                {{ curso.duracion }} horas
+            </span>
+            <span class="precio-badge">${{ curso.precio }}</span>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="curso-content">
+    <div class="content-wrapper">
+        <!-- LEFT COLUMN -->
+        <div class="curso-main">
+            <!-- DESCRIPCION -->
+            <article class="content-card">
+                <h2><i class="fas fa-book-open"></i> Acerca de este Curso</h2>
+                <p class="curso-descripcion-completa">{{ curso.descripcion }}</p>
+            </article>
+
+            <!-- MODULOS -->
+            <article class="content-card">
+                <h2><i class="fas fa-list"></i> Contenido del Curso</h2>
+                
+                {% if curso.modulos.all %}
+                    <div class="modulos-list">
+                        {% for modulo in curso.modulos.all %}
+                            <details class="modulo-item">
+                                <summary class="modulo-header">
+                                    <div class="modulo-info">
+                                        <span class="modulo-number">{{ modulo.orden }}</span>
+                                        <div class="modulo-text">
+                                            <h3>{{ modulo.titulo }}</h3>
+                                            <p>{{ modulo.lecciones.count }} lecciones</p>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-down chevron"></i>
+                                </summary>
+                                
+                                <div class="modulo-content">
+                                    <p class="modulo-descripcion">{{ modulo.descripcion }}</p>
+                                    
+                                    <div class="lecciones-preview">
+                                        {% for leccion in modulo.lecciones.all %}
+                                            <div class="leccion-preview">
+                                                <i class="fas fa-{{ leccion.tipo|leccion_icon }}"></i>
+                                                <div>
+                                                    <span>{{ leccion.titulo }}</span>
+                                                    <small>{{ leccion.duracion }} min</small>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    {% if inscrito %}
+                                        <a href="{% url 'lista_lecciones' modulo.id %}" class="btn btn-secondary">
+                                            Ver Lecciones
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </details>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Este curso aún no tiene módulos.</p>
+                {% endif %}
+            </article>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="curso-sidebar">
+            <!-- CARD DE INSCRIPCION -->
+            <div class="info-card info-card-primary">
+                <h3>Resumen del Curso</h3>
+                
+                <div class="info-items">
+                    <div class="info-item">
+                        <span class="label">Nivel:</span>
+                        <span class="value">{{ curso.get_nivel_display }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Duración:</span>
+                        <span class="value">{{ curso.duracion }} horas</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Módulos:</span>
+                        <span class="value">{{ curso.modulos.count }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Lecciones:</span>
+                        <span class="value">
+                            {% widtotal:lecciones_count|default:"0" %}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Precio:</span>
+                        <span class="value price">${{ curso.precio }}</span>
+                    </div>
+                </div>
+
+                <div class="inscription-action">
+                    {% if inscrito %}
+                        <button class="btn btn-success" disabled>
+                            <i class="fas fa-check"></i> Ya estás inscrito
+                        </button>
+                    {% else %}
+                        <form method="post" action="{% url 'inscribirse' curso.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-sign-in-alt"></i> Inscribirse Ahora
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- CARD DE INSTRUCTOR -->
+            <div class="info-card">
+                <h3><i class="fas fa-chalkboard-user"></i> Instructor</h3>
+                <div class="instructor-card">
+                    <div class="instructor-header">
+                        <h4>{{ curso.instructor.usuario.get_full_name }}</h4>
+                        <p class="specialty">{{ curso.instructor.especialidad }}</p>
+                    </div>
+
+                    <div class="instructor-stats">
+                        <div class="stat">
+                            <span class="stat-label">Experiencia:</span>
+                            <span class="stat-value">{{ curso.instructor.experiencia }} años</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Calificación:</span>
+                            <span class="stat-value">
+                                <i class="fas fa-star"></i> {{ curso.instructor.calificacion_promedio }}/5.0
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if curso.instructor.biografia %}
+                        <p class="instructor-bio">{{ curso.instructor.biografia }}</p>
+                    {% endif %}
+
+                    {% if curso.instructor.sitio_web %}
+                        <a href="{{ curso.instructor.sitio_web }}" target="_blank" class="btn btn-outline btn-sm">
+                            <i class="fas fa-globe"></i> Sitio Web
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}

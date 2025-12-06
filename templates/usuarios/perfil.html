@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mi Perfil - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- HEADER -->
+<header class="page-header">
+    <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
+</header>
+
+<div class="perfil-container">
+    <!-- LEFT COLUMN -->
+    <main class="perfil-main">
+        {% if tipo_usuario == 'estudiante' %}
+            <!-- PERFIL ESTUDIANTE -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-graduation-cap"></i> Información del Estudiante</h2>
+                
+                <div class="perfil-info">
+                    <div class="info-group">
+                        <label>Nombre Completo:</label>
+                        <p>{{ user.get_full_name|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Email:</label>
+                        <p>{{ user.email }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Usuario:</label>
+                        <p>{{ user.username }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Fecha de Nacimiento:</label>
+                        <p>{{ perfil.fecha_nacimiento|date:"d/m/Y"|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Teléfono:</label>
+                        <p>{{ perfil.telefono|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>País:</label>
+                        <p>{{ perfil.pais|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Nivel Educativo:</label>
+                        <p>{{ perfil.nivel_educativo|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Miembro Desde:</label>
+                        <p>{{ perfil.fecha_registro|date:"d \d\e F \d\e Y" }}</p>
+                    </div>
+                </div>
+
+                <div class="perfil-actions">
+                    <a href="/admin/usuarios/estudiante/{{ perfil.id }}/change/" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Editar Perfil
+                    </a>
+                </div>
+            </article>
+
+            <!-- ESTADISTICAS ESTUDIANTE -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-chart-bar"></i> Mis Estadísticas</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ inscripciones_count|default:"0" }}</div>
+                        <div class="stat-label">Cursos Inscritos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ cursos_completados|default:"0" }}</div>
+                        <div class="stat-label">Cursos Completados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ certificados_count|default:"0" }}</div>
+                        <div class="stat-label">Certificados Obtenidos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ tareas_completadas|default:"0" }}</div>
+                        <div class="stat-label">Tareas Completadas</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CURSOS INSCRITOS -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-book"></i> Mis Cursos</h2>
+                
+                {% if inscripciones %}
+                    <div class="cursos-list">
+                        {% for inscripcion in inscripciones %}
+                            <div class="curso-list-item">
+                                <div class="curso-list-info">
+                                    <h4>{{ inscripcion.curso.titulo }}</h4>
+                                    <p>{{ inscripcion.curso.instructor.usuario.get_full_name }}</p>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: {{ inscripcion.progreso }}%;"></div>
+                                    </div>
+                                    <span class="progress-text">{{ inscripcion.progreso }}% completado</span>
+                                </div>
+                                <a href="{% url 'detalle_curso' inscripcion.curso.id %}" class="btn btn-sm btn-outline">
+                                    Continuar
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No estás inscrito en ningún curso aún.</p>
+                    <a href="{% url 'lista_cursos' %}" class="btn btn-primary">
+                        Explorar Cursos
+                    </a>
+                {% endif %}
+            </article>
+
+        {% elif tipo_usuario == 'instructor' %}
+            <!-- PERFIL INSTRUCTOR -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-chalkboard-user"></i> Información del Instructor</h2>
+                
+                <div class="perfil-info">
+                    <div class="info-group">
+                        <label>Nombre Completo:</label>
+                        <p>{{ user.get_full_name|default:"No especificado" }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Email:</label>
+                        <p>{{ user.email }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Especialidad:</label>
+                        <p>{{ perfil.especialidad }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Experiencia:</label>
+                        <p>{{ perfil.experiencia }} años</p>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Biografía:</label>
+                        <p>{{ perfil.biografia }}</p>
+                    </div>
+
+                    {% if perfil.sitio_web %}
+                        <div class="info-group">
+                            <label>Sitio Web:</label>
+                            <p>
+                                <a href="{{ perfil.sitio_web }}" target="_blank">
+                                    {{ perfil.sitio_web }}
+                                </a>
+                            </p>
+                        </div>
+                    {% endif %}
+
+                    <div class="info-group">
+                        <label>Calificación Promedio:</label>
+                        <p>
+                            <i class="fas fa-star"></i>
+                            {{ perfil.calificacion_promedio }}/5.0
+                        </p>
+                    </div>
+                </div>
+
+                <div class="perfil-actions">
+                    <a href="/admin/usuarios/instructor/{{ perfil.id }}/change/" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Editar Perfil
+                    </a>
+                </div>
+            </article>
+
+            <!-- ESTADISTICAS INSTRUCTOR -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-chart-bar"></i> Mis Estadísticas</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ cursos_count|default:"0" }}</div>
+                        <div class="stat-label">Cursos Creados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ estudiantes_totales|default:"0" }}</div>
+                        <div class="stat-label">Estudiantes Totales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ modulos_count|default:"0" }}</div>
+                        <div class="stat-label">Módulos Creados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ lecciones_count|default:"0" }}</div>
+                        <div class="stat-label">Lecciones Creadas</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- MIS CURSOS COMO INSTRUCTOR -->
+            <article class="perfil-card">
+                <h2><i class="fas fa-book"></i> Mis Cursos</h2>
+                
+                {% if cursos %}
+                    <div class="cursos-list">
+                        {% for curso in cursos %}
+                            <div class="curso-list-item instructor-curso">
+                                <div class="curso-list-info">
+                                    <h4>{{ curso.titulo }}</h4>
+                                    <p>{{ curso.inscripciones.count }} estudiantes inscritos</p>
+                                    <span class="curso-status {% if curso.publicado %}publicado{% else %}borrador{% endif %}">
+                                        {% if curso.publicado %}
+                                            <i class="fas fa-check-circle"></i> Publicado
+                                        {% else %}
+                                            <i class="fas fa-clock"></i> Borrador
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="curso-actions">
+                                    <a href="{% url 'detalle_curso' curso.id %}" class="btn btn-sm btn-outline">
+                                        Ver
+                                    </a>
+                                    <a href="/admin/cursos/curso/{{ curso.id }}/change/" class="btn btn-sm btn-secondary">
+                                        Editar
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No has creado ningún curso aún.</p>
+                {% endif %}
+            </article>
+
+        {% else %}
+            <!-- SIN TIPO DE USUARIO -->
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Nota:</strong> Tu cuenta no está configurada como estudiante ni instructor.
+            </div>
+        {% endif %}
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="perfil-sidebar">
+        <!-- USUARIO INFO -->
+        <div class="sidebar-card user-card">
+            <div class="user-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3>{{ user.get_full_name|default:user.username }}</h3>
+            <p class="user-type">
+                {% if tipo_usuario == 'estudiante' %}
+                    <i class="fas fa-graduation-cap"></i> Estudiante
+                {% elif tipo_usuario == 'instructor' %}
+                    <i class="fas fa-chalkboard-user"></i> Instructor
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- ACCIONES RAPIDAS -->
+        <div class="sidebar-card">
+            <h4><i class="fas fa-lightning-bolt"></i> Acciones Rápidas</h4>
+            <div class="quick-actions">
+                <a href="{% url 'lista_cursos' %}" class="quick-action-btn">
+                    <i class="fas fa-search"></i> Explorar Cursos
+                </a>
+                {% if tipo_usuario == 'estudiante' %}
+                    <a href="{% url 'lista_tareas' %}" class="quick-action-btn">
+                        <i class="fas fa-tasks"></i> Mis Tareas
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- AYUDA -->
+        <div class="sidebar-card alert alert-info">
+            <h4><i class="fas fa-question-circle"></i> ¿Necesitas Ayuda?</h4>
+            <p>Contacta a nuestro equipo de soporte en:</p>
+            <p>
+                <strong>info@edulearn.com</strong><br>
+                <strong>+57 (1) 123-4567</strong>
+            </p>
+        </div>
+    </aside>
+</div>
+{% endblock %}

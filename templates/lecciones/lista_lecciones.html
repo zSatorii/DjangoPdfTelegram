@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ modulo.titulo }} - {{ curso.titulo }} - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/lecciones.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+    <a href="{% url 'lista_cursos' %}">Cursos</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="{% url 'detalle_curso' curso.id %}">{{ curso.titulo }}</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>{{ modulo.titulo }}</span>
+</nav>
+
+<!-- HEADER -->
+<header class="modulo-header">
+    <div class="header-content">
+        <h1>{{ modulo.titulo }}</h1>
+        <p class="modulo-descripcion">{{ modulo.descripcion }}</p>
+        
+        <div class="header-stats">
+            <span class="stat">
+                <i class="fas fa-video"></i>
+                {{ modulo.lecciones.count }} lecciones
+            </span>
+            <span class="stat">
+                <i class="fas fa-graduation-cap"></i>
+                {{ curso.titulo }}
+            </span>
+        </div>
+    </div>
+</header>
+
+<!-- LECCIONES LIST -->
+<section class="lecciones-section">
+    {% if lecciones %}
+        <div class="lecciones-list">
+            {% for leccion in lecciones %}
+                <article class="leccion-item">
+                    <div class="leccion-icon">
+                        <i class="fas fa-{{ leccion.tipo|leccion_icon }}"></i>
+                    </div>
+
+                    <div class="leccion-info">
+                        <div class="leccion-header">
+                            <h3>{{ leccion.titulo }}</h3>
+                            <span class="leccion-tipo tipo-{{ leccion.tipo }}">
+                                {{ leccion.get_tipo_display }}
+                            </span>
+                        </div>
+                        <p class="leccion-descripcion">{{ leccion.contenido|truncatewords:15 }}</p>
+                        
+                        <div class="leccion-meta">
+                            <span>
+                                <i class="fas fa-clock"></i>
+                                {{ leccion.duracion }} minutos
+                            </span>
+                            <span>
+                                <i class="fas fa-list-ol"></i>
+                                Lección {{ leccion.orden }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="leccion-action">
+                        <a href="{% url 'detalle_leccion' leccion.id %}" class="btn btn-primary">
+                            Acceder
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>No hay lecciones en este módulo</h3>
+            <p>El contenido se agregarás próximamente</p>
+        </div>
+    {% endif %}
+</section>
+
+<!-- NAVEGACION -->
+<section class="modulos-nav">
+    <a href="{% url 'detalle_curso' curso.id %}" class="btn btn-outline">
+        <i class="fas fa-arrow-left"></i> Volver al Curso
+    </a>
+</section>
+{% endblock %}

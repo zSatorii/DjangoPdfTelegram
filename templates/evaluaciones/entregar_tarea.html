@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Entregar: {{ tarea.titulo }} - EduLearn{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+    <a href="{% url 'lista_tareas' %}">Mis Tareas</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>{{ tarea.titulo }}</span>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+    <h1><i class="fas fa-upload"></i> Entregar Tarea</h1>
+</header>
+
+<!-- CONTENT -->
+<div class="formulario-container">
+    <!-- LEFT COLUMN -->
+    <main class="formulario-main">
+        <div class="form-card">
+            <div class="tarea-info-box">
+                <h2>{{ tarea.titulo }}</h2>
+                <p>{{ tarea.descripcion }}</p>
+                
+                <div class="tarea-requirements">
+                    <h4><i class="fas fa-checklist"></i> Requisitos</h4>
+                    <ul>
+                        <li>Formato: Archivo ZIP o PDF</li>
+                        <li>Tamaño máximo: 50 MB</li>
+                        <li>Fecha límite: {{ tarea.fecha_limite|date:"d/m/Y H:i" }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FORMULARIO -->
+            <form method="post" enctype="multipart/form-data" class="form-entrega">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="archivo" class="form-label">
+                        <i class="fas fa-file-upload"></i> Selecciona tu archivo
+                    </label>
+                    <div class="file-upload-wrapper">
+                        <input 
+                            type="file" 
+                            id="archivo" 
+                            name="archivo" 
+                            class="file-input"
+                            accept=".pdf,.zip,.rar,.doc,.docx"
+                            required
+                        >
+                        <div class="file-upload-area" onclick="document.getElementById('archivo').click();">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Haz clic o arrastra tu archivo aquí</h4>
+                            <p>PDF, ZIP, RAR o DOCX (máx. 50 MB)</p>
+                        </div>
+                    </div>
+                    <small class="form-text">El archivo subido reemplazará cualquier entrega anterior</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios" class="form-label">
+                        <i class="fas fa-comment"></i> Comentarios (opcional)
+                    </label>
+                    <textarea 
+                        id="comentarios" 
+                        name="comentarios" 
+                        class="form-control"
+                        placeholder="Añade cualquier comentario o nota sobre tu entrega..."
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-check"></i> Entregar Tarea
+                    </button>
+                    <a href="{% url 'lista_tareas' %}" class="btn btn-outline btn-lg">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="formulario-sidebar">
+        <div class="sidebar-card">
+            <h3><i class="fas fa-info-circle"></i> Información de la Tarea</h3>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="label">Puntaje Máximo:</span>
+                    <span class="value">{{ tarea.puntaje_maximo }} puntos</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Fecha Límite:</span>
+                    <span class="value">{{ tarea.fecha_limite|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Módulo:</span>
+                    <span class="value">{{ tarea.leccion.modulo.titulo }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Lección:</span>
+                    <span class="value">{{ tarea.leccion.titulo }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card alert alert-info">
+            <h4><i class="fas fa-lightbulb"></i> Consejo</h4>
+            <p>Revisa tu trabajo antes de entregar. Asegúrate de que el archivo contenga todo lo solicitado.</p>
+        </div>
+    </aside>
+</div>
+{% endblock %}

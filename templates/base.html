@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EduLearn - Plataforma de Educación Online{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="/" class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>EduLearn</span>
+                </a>
+            </div>
+
+            <!-- Hamburger Menu para móvil -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Menu de navegación -->
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="{% url 'lista_cursos' %}" class="nav-link">Cursos</a></li>
+                
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'lista_tareas' %}" class="nav-link">Mis Tareas</a></li>
+                    <li><a href="{% url 'perfil_usuario' %}" class="nav-link">Mi Perfil</a></li>
+                    <li class="nav-divider"></li>
+                    <li>
+                        <div class="user-info">
+                            <i class="fas fa-user-circle"></i>
+                            <span>{{ user.get_full_name|default:user.username }}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/admin/logout/" class="nav-link btn-logout">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/admin/login/" class="nav-link btn-login">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Messages/Alerts -->
+            {% if messages %}
+                <div class="alerts-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible">
+                            <button type="button" class="alert-close" onclick="this.parentElement.style.display='none';">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <i class="fas fa-info-circle"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Page Content -->
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>EduLearn</h3>
+                <p>Plataforma de educación online de calidad para todos.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="{% url 'lista_cursos' %}">Cursos</a></li>
+                    <li><a href="#about">Acerca de</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@edulearn.com</li>
+                    <li><i class="fas fa-phone"></i> +57 (1) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EduLearn. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/base.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
