@@ -137,6 +137,24 @@
                         <button class="btn btn-success" disabled>
                             <i class="fas fa-check"></i> Ya estás inscrito
                         </button>
+
+                        <!-- BOTÓN DESCARGAR CERTIFICADO -->
+                        <a href="{% url 'descargar_certificado' curso.id %}"
+                           class="btn btn-outline btn-block"
+                           style="margin-top: 8px;">
+                            <i class="fas fa-file-pdf"></i> Descargar certificado
+                        </a>
+
+                        <!-- BOTÓN ENVIAR POR CORREO -->
+                        <form method="post"
+                              action="{% url 'enviar_certificado' curso.id %}"
+                              style="margin-top: 8px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-envelope"></i> Enviar certificado por correo
+                            </button>
+                        </form>
+
                     {% else %}
                         <form method="post" action="{% url 'inscribirse' curso.id %}">
                             {% csrf_token %}
