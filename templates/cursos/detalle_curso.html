@@ -77,7 +77,7 @@
                                     <div class="lecciones-preview">
                                         {% for leccion in modulo.lecciones.all %}
                                             <div class="leccion-preview">
-                                                <i class="fas fa-{{ leccion.tipo|leccion_icon }}"></i>
+                                                <i class="fas fa-book"></i>
                                                 <div>
                                                     <span>{{ leccion.titulo }}</span>
                                                     <small>{{ leccion.duracion }} min</small>
@@ -123,7 +123,7 @@
                     <div class="info-item">
                         <span class="label">Lecciones:</span>
                         <span class="value">
-                            {% widtotal:lecciones_count|default:"0" %}
+                            {{ lecciones_count|default:"0" }}
                         </span>
                     </div>
                     <div class="info-item">
@@ -133,38 +133,31 @@
                 </div>
 
                 <div class="inscription-action">
-                    {% if inscrito %}
-                        <button class="btn btn-success" disabled>
-                            <i class="fas fa-check"></i> Ya estás inscrito
-                        </button>
-
-                        <!-- BOTÓN DESCARGAR CERTIFICADO -->
-                        <a href="{% url 'descargar_certificado' curso.id %}"
-                           class="btn btn-outline btn-block"
-                           style="margin-top: 8px;">
-                            <i class="fas fa-file-pdf"></i> Descargar certificado
-                        </a>
-
-                        <!-- BOTÓN ENVIAR POR CORREO -->
-                        <form method="post"
-                              action="{% url 'enviar_certificado' curso.id %}"
-                              style="margin-top: 8px;">
-                            {% csrf_token %}
+                    <!-- BOTÓN DESCARGAR CERTIFICADO -->
+                    <a href="{% url 'descargar_certificado' curso.id %}"
+                       class="btn btn-outline btn-block"
+                       style="margin-top: 8px;">
+                        <i class="fas fa-file-pdf"></i> Descargar certificado
+                    </a>
+                
+                    <!-- FORM ENVIAR CERTIFICADO A CORREO -->
+                    <form method="post"
+                          action="{% url 'enviar_certificado' curso.id %}"
+                          style="margin-top: 8px;">
+                        {% csrf_token %}
+                        <div class="input-group mb-2">
+                            <input type="email"
+                                   name="email_destino"
+                                   class="form-control"
+                                   placeholder="Correo para enviar el certificado"
+                                   required>
                             <button type="submit" class="btn btn-primary btn-block">
-                                <i class="fas fa-envelope"></i> Enviar certificado por correo
+                                <i class="fas fa-envelope"></i> Enviar certificado
                             </button>
-                        </form>
+                        </div>
+                    </form>
 
-                    {% else %}
-                        <form method="post" action="{% url 'inscribirse' curso.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary btn-block">
-                                <i class="fas fa-sign-in-alt"></i> Inscribirse Ahora
-                            </button>
-                        </form>
-                    {% endif %}
-                </div>
-            </div>
+
 
             <!-- CARD DE INSTRUCTOR -->
             <div class="info-card">

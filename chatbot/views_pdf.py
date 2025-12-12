@@ -6,13 +6,11 @@ from .pdf_generator import generar_certificado_estudiante
 
 
 def descargar_certificado(request, curso_id):
-    # Datos de prueba; luego los sacas de la BD / usuario
     cedula = "1234567890"
     nombre = request.user.get_full_name() or request.user.username
     curso = f"Curso {curso_id}"
 
     pdf_buffer = generar_certificado_estudiante(
-        estudiante_id=request.user.id,
         cedula=cedula,
         nombre=nombre,
         curso=curso,
@@ -24,14 +22,18 @@ def descargar_certificado(request, curso_id):
 
 
 def enviar_certificado_view(request, curso_id):
-    correo = request.user.email
-    cedula = "1234567890"  # luego lo sacas de la BD
+    # 1. Leer el correo que viene del formulario
+    if request.method == "POST":
+        correo = request.POST.get("email_destino")
+    else:
+        correo = request.user.email  # opcional, por si alguien entra por GET
+
+    cedula = "1234567890"  # luego lo puedes sacar de la BD
     nombre = request.user.get_full_name() or request.user.username
     curso = f"Curso {curso_id}"
 
     enviar_certificado_por_email(
         correo_destino=correo,
-        estudiante_id=request.user.id,
         cedula=cedula,
         nombre=nombre,
         curso=curso,

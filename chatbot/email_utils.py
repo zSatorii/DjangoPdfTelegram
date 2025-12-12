@@ -1,10 +1,11 @@
-# chatbot/email_utils.py
 from django.core.mail import EmailMessage
+from django.conf import settings
 from .pdf_generator import generar_certificado_estudiante
 
-def enviar_certificado_por_email(correo_destino, estudiante_id, cedula, nombre, curso):
+
+def enviar_certificado_por_email(correo_destino, cedula, nombre, curso):
+    # Genera el PDF solo con datos primitivos, sin tocar la BD
     pdf_buffer = generar_certificado_estudiante(
-        estudiante_id=estudiante_id,
         cedula=cedula,
         nombre=nombre,
         curso=curso,
@@ -23,7 +24,7 @@ def enviar_certificado_por_email(correo_destino, estudiante_id, cedula, nombre, 
     email = EmailMessage(
         subject=asunto,
         body=cuerpo,
-        from_email=None,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         to=[correo_destino],
     )
 
@@ -33,4 +34,8 @@ def enviar_certificado_por_email(correo_destino, estudiante_id, cedula, nombre, 
         mimetype="application/pdf",
     )
 
-    email.send()
+    try:
+        resultado = email.send()
+        print("CERTIFICADO ENVIADO A:", correo_destino, "RESULTADO:", resultado)
+    except Exception as e:
+        print("ERROR ENVIANDO CERTIFICADO:", repr(e))

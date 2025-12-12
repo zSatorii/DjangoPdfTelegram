@@ -82,15 +82,14 @@ WSGI_APPLICATION = 'Proyecto_estudio.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nombre_de_tu_bd',
-        'USER': 'tu_usuario',
-        'PASSWORD': 'tu_password',
-        'HOST': 'localhost',   # o IP/host de tu servidor Postgres
-        'PORT': '5432',        # puerto por defecto
+        'ENGINE': 'django.db.backends.postgresql',  # o 'django.db.backends.postgresql_psycopg2'
+        'NAME': 'edulearn_db',      # nombre de tu base en Postgres
+        'USER': 'postgres',         # usuario de Postgres
+        'PASSWORD': '1234',  # contraseña
+        'HOST': 'localhost',        # o IP/hostname del servidor
+        'PORT': '5432',             # puerto por defecto de Postgres
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -135,7 +134,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = "johanikaros@gmail.com"          # tu correo Gmail
 EMAIL_HOST_PASSWORD = "jdvi ojrh bhbh ffrc"     # la clave de 16 caracteres
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

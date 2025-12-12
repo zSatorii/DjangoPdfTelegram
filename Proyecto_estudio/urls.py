@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-from django.urls import path
 from chatbot.views_pdf import descargar_certificado, enviar_certificado_view
+from chatbot.views_pdf import descargar_certificado  # solo esto
+from cursos import views as cursos_views
 
 
 urlpatterns = [
@@ -30,6 +31,9 @@ urlpatterns = [
     path('evaluaciones/', include('evaluaciones.urls')),
     path('certificado/<int:curso_id>/', descargar_certificado, name='descargar_certificado'),
     path('curso/<int:curso_id>/enviar-certificado/',enviar_certificado_view,name='enviar_certificado',),
-
+    path('curso/<int:curso_id>/enviar-certificado/',
+     cursos_views.enviar_certificado,
+     name='enviar_certificado'),
 
 ]
+

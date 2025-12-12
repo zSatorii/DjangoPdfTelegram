@@ -169,7 +169,7 @@ class PDFGenerador:
 
 
 # EJEMPLO DE USO
-def generar_certificado_estudiante(estudiante_id, cedula, nombre, curso):
+def generar_certificado_estudiante(cedula, nombre, curso):
     """Genera un certificado en PDF encriptado"""
     
     pdf_gen = PDFGenerador(titulo="Certificado de Finalización")
